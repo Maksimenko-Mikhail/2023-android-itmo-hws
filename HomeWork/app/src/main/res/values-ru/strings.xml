@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HomeWork</string>
+    <string name="enter_button">вход</string>
+    <string name="login">логин</string>
+    <string name="password">пароль</string>
+</resources>

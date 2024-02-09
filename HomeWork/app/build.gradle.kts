@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "ro.ok.itmo.hw"
-    compileSdk = 33
+    namespace = "ru.ok.itmo.hw"
+    compileSdk = 34
 
     defaultConfig {
-        applicationId = "ro.ok.itmo.hw"
+        applicationId = "ru.ok.itmo.hw"
         minSdk = 24
         targetSdk = 33
         versionCode = 1
