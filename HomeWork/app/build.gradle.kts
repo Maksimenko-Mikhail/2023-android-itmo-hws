@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "ru.ok.itmo.hw"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "ru.ok.itmo.hw"
