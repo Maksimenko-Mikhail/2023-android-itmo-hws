@@ -1,6 +1,8 @@
 package ru.ok.itmo.hw
 
+import android.content.Context
 import android.content.res.Configuration
+import android.graphics.ColorSpace.Model
 import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -10,25 +12,29 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
-
+    private var nightTheme = false
     fun changeTheme() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            val configuration = this.getResources().configuration;
-            val currentNightMode = configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-            when (currentNightMode) {
-                Configuration.UI_MODE_NIGHT_NO -> {setTheme(android.R.style.ThemeOverlay_Material_Light)} // Night mode is not active, we're using the light theme.
-                Configuration.UI_MODE_NIGHT_YES -> {setTheme(android.R.style.ThemeOverlay_Material_Dark)} // Night mode is active, we're using dark theme.
-            }
-        }
+        if (nightTheme) setTheme(android.R.style.ThemeOverlay_Material_Dark)
+        else setTheme(android.R.style.ThemeOverlay_Material_Light)
     }
     override fun onCreate(savedInstanceState: Bundle?) {
+        val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
+        nightTheme = sharedPref.getBoolean("night_theme",
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+                resources.configuration.isNightModeActive
+            else false)
         changeTheme()
         super.onCreate(savedInstanceState)
+
+
         val login : EditText = findViewById(R.id.et2)
         val password : EditText = findViewById(R.id.et3)
         val enter : Button = findViewById(R.id.btn1)
+        val themeBtn : Button = findViewById(R.id.btn2)
+
 
         enter.setOnClickListener {
 
@@ -51,13 +57,22 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             View.OnKeyListener {
                     v, keyCode, event ->
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
-                    val len = password.getText().toString().length
-                    password.getText().delete(len - 1, len)
                     enter.performClick()
                     return@OnKeyListener true
                 }
                 false
             }
         )
+        themeBtn.setOnClickListener {
+            nightTheme = !nightTheme
+            with(sharedPref.edit()) {
+                putBoolean("night_theme", nightTheme)
+                apply()
+            }
+            changeTheme()
+            recreate()
+        }
+
+
     }
 }

@@ -4,4 +4,5 @@
     <string name="enter_button">כְּנִיסָה</string>
     <string name="login">התחברות</string>
     <string name="password">סיסמה</string>
+    <string name="change_theme">לשנות את נושא המסך</string>
 </resources>

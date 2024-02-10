@@ -4,4 +4,5 @@
     <string name="enter_button">вход</string>
     <string name="login">логин</string>
     <string name="password">пароль</string>
+    <string name="change_theme">сменить тему экрана</string>
 </resources>

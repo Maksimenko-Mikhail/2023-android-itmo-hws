@@ -19,9 +19,15 @@
         android:layout_height="0dp"
         android:orientation="vertical"
         app:layout_constraintGuide_end="200sp" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_mid"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
     <EditText
         android:id="@+id/et2"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="33"
         android:inputType="textEmailAddress"
@@ -53,6 +59,18 @@
         android:text="@string/enter_button"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/gl_right"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@id/gl_left"
+        app:layout_constraintTop_toTopOf="@id/gl_mid"/>
+    <Button
+        android:id="@+id/btn2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/change_theme"
+        android:textSize="30sp"
+        android:gravity="bottom"
+        app:layout_constraintBottom_toBottomOf="@id/gl_mid"
         app:layout_constraintEnd_toStartOf="@id/gl_right"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toEndOf="@id/gl_left"
