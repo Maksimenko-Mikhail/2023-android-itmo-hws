@@ -32,7 +32,7 @@ public class DataUtils {
             int numMessages = random.nextInt(MIN_MESSAGE_PER_USER) + MIN_MESSAGE_PER_USER;
             for (int j = 0; j < numMessages; j++, k++) {
                 String text = texts[random.nextInt(texts.length)];
-                Message message = new Message(k, text, i, System.currentTimeMillis());
+                Message message = new Message(k, text, i, System.currentTimeMillis(), new State.READ());
                 messages.add(message);
             }
             map.put(i, messages);
