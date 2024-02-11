@@ -57,7 +57,7 @@ class MessageController {
     }
 
     private fun Message.isValid() : Boolean {
-        return id != null && text != null && senderId != null && timestamp != null
+        return id != null && text != null && senderId != null && timestamp != null && state != null
     }
 
 }

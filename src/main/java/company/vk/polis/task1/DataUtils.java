@@ -93,11 +93,12 @@ public class DataUtils {
         }
         garbage = random.nextInt(50);
         for (int i = 0; i < garbage; i++) {
-            switch (random.nextInt(4)) {
-                case 0 -> combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L));
-                case 1 -> combined.add(new Message(-1, null, -1, -1L));
-                case 2 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L));
-                default -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null));
+            switch (random.nextInt(5)) {
+                case 0 -> combined.add(new Message(null, texts[random.nextInt(texts.length - 1)], -1, -1L, new State.READ()));
+                case 1 -> combined.add(new Message(-1, null, -1, -1L, new State.READ()));
+                case 2 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], null, -1L, new State.READ()));
+                case 3 -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, -1L, null));
+                default -> combined.add(new Message(-1, texts[random.nextInt(texts.length - 1)], -1, null, new State.READ()));
             }
         }
         garbage = random.nextInt(50);
