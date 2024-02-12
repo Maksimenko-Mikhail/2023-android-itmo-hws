@@ -1,3 +1,4 @@
+import java.util.concurrent.CountDownLatch
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
@@ -110,11 +111,34 @@ fun unsynchronizedThreads() {
     println("unsync threads: $myInt") // иногда выдает отличный от 10000 результат
 }
 
+fun countArraySum() {
+    val arraySize = 10000000
+    val list : MutableList<Int> = ArrayList()
+    for (i in 1..arraySize) {
+        list.add(i)
+    }
+    val res : MutableList<Long> = ArrayList()
+    val countDownLatch = CountDownLatch(arraySize)
+    val task = ArraySumTask(list, countDownLatch, res)
+    val executor = Executors.newScheduledThreadPool(1)
+    try {
+        executor.submit(task).get()
+        println(res.sum())
+    } catch (e : ExecutionException) {
+        println("execution failed with message ${e.message}")
+    }
+    finally {
+        executor.shutdown()
+    }
+
+}
+
 fun main(args: Array<String>) {
     println("Hello threads")
     runThread()
     callCallable()
     synchronizedThreads()
     unsynchronizedThreads()
+    countArraySum()
 //    deadlock()
 }
