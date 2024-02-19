@@ -13,7 +13,7 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-
+import ru.ok.itmo.hw.R
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private var nightTheme = false
     fun changeTheme() {
