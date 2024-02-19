@@ -1,18 +1,26 @@
-package com.example.hw6
+package ru.ok.itmo.HomeWork
 
 import android.content.Context
+import android.util.Log
+import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.concurrent.TimeUnit
 
 class MainViewModel : ViewModel() {
 
@@ -21,18 +29,44 @@ class MainViewModel : ViewModel() {
     val uiStateLiveData: LiveData<TimerUiState>
         get() = _uiStateLiveData
 
-    var time : Int = 0
     class Factory internal constructor() : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return MainViewModel() as T
         }
     }
 
+
+    private fun runThreads() {
+        val t1 = Thread {
+            var time: Int = 0
+            while (time <= 100) {
+                Thread.sleep(100)
+
+                viewModelScope.launch { handleResult(time) }
+                time += 10
+            }
+        }
+        t1.start()
+    }
+
+    private fun runJavaRx() {
+        var time = 0
+        val observable = Observable
+            .interval(100, TimeUnit.MILLISECONDS)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .takeWhile { time < 100 }
+            .subscribe {
+                time += 10
+                viewModelScope.launch { handleResult(time) }
+            }
+    }
+
     fun countdown(mode : Int) {
         if (mode == 0) {
-            ruwCoroutine()
+            runThreads()
         } else {
-            runFlow()
+            runJavaRx()
         }
     }
 
@@ -62,7 +96,7 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    private fun ruwCoroutine() {
+    private fun runCoroutine() {
         viewModelScope
             .launch {
                 var time: Int = 0

@@ -1,4 +1,4 @@
-package com.example.hw6
+package ru.ok.itmo.HomeWork
 
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
@@ -7,13 +7,13 @@ import android.content.Context
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.work.Data
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onCompletion
+import ru.ok.itmo.HomeWork.R
 
 class AlarmFlow(context: Context) {
 

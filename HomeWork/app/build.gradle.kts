@@ -5,13 +5,13 @@ plugins {
 }
 
 android {
-    namespace = "com.example.hw6"
-    compileSdk = 33
+    namespace = "ru.ok.itmo.HomeWork"
+    compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.hw6"
+        applicationId = "ru.ok.itmo.HomeWork"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -41,10 +41,14 @@ dependencies {
 
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
-    //Coroutines
+    // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
-    //WorkManager
+    // WorkManager
     implementation("androidx.work:work-runtime:2.7.0")
+
+    // javarx
+    implementation("io.reactivex.rxjava3:rxandroid:3.0.0")
+    implementation("io.reactivex.rxjava3:rxjava:3.0.0")
 }

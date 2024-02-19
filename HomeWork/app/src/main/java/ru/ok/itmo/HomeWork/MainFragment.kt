@@ -1,4 +1,4 @@
-package com.example.hw6
+package ru.ok.itmo.HomeWork
 
 import android.app.TimePickerDialog
 import android.os.Bundle
@@ -11,6 +11,7 @@ import android.widget.RadioGroup
 import android.widget.TimePicker
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import ru.ok.itmo.HomeWork.R
 import java.util.Calendar
 
 class MainFragment : Fragment() {
