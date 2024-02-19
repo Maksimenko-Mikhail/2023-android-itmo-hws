@@ -36,12 +36,12 @@ class MainViewModel : ViewModel() {
     }
 
 
-    private fun runThreads() {
+    private fun runThreads(period: Int) {
         val t1 = Thread {
             var time: Int = 0
             while (time <= 100) {
-                Thread.sleep(100)
 
+                Thread.sleep(period.toLong())
                 viewModelScope.launch { handleResult(time) }
                 time += 10
             }
@@ -49,24 +49,24 @@ class MainViewModel : ViewModel() {
         t1.start()
     }
 
-    private fun runJavaRx() {
+    private fun runJavaRx(period: Int) {
         var time = 0
         val observable = Observable
-            .interval(100, TimeUnit.MILLISECONDS)
+            .interval((period).toLong(), TimeUnit.MILLISECONDS)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .takeWhile { time < 100 }
+            .takeWhile { time <= 100 }
             .subscribe {
                 time += 10
                 viewModelScope.launch { handleResult(time) }
             }
     }
 
-    fun countdown(mode : Int) {
+    fun countdown(mode : Int, period : Int) {
         if (mode == 0) {
-            runThreads()
+            runThreads(period)
         } else {
-            runJavaRx()
+            runJavaRx(period)
         }
     }
 

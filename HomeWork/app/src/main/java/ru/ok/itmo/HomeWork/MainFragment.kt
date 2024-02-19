@@ -20,7 +20,9 @@ class MainFragment : Fragment() {
     private lateinit var progress: ProgressBar
     private lateinit var btnAlarm: Button
     private lateinit var workMode: RadioGroup
+    private lateinit var timePicker: RadioGroup
     private var mode = 0
+    private var period = 100
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,16 +49,24 @@ class MainFragment : Fragment() {
             if (mode == 2) {
                 showTimePickerDialog()
             } else {
-                viewModel.countdown(mode)
+                viewModel.countdown(mode, period)
             }
         }
         workMode.setOnCheckedChangeListener { group, checkedId ->
-            if (checkedId == R.id.corut) {
+            if (checkedId == R.id.threads) {
                 mode = 0
-            } else if (checkedId == R.id.flow) {
+            } else if (checkedId == R.id.rx) {
                 mode = 1
             } else if (checkedId == R.id.ala) {
                 mode = 2
+            }
+        }
+        timePicker.setOnCheckedChangeListener { group, checkedId ->
+            when(checkedId) {
+                R.id.time1 -> period = 50
+                R.id.time2 -> period = 100
+                R.id.time3 -> period = 300
+                R.id.time4 -> period = 500
             }
         }
     }
@@ -71,6 +81,7 @@ class MainFragment : Fragment() {
         progress = view.findViewById(R.id.progress)
         btnAlarm = view.findViewById(R.id.start_button)
         workMode = view.findViewById(R.id.radioTypes)
+        timePicker = view.findViewById(R.id.radioTypes2)
     }
 
     private var hourOfDay = 0

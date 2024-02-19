@@ -16,14 +16,14 @@
         android:orientation="horizontal">
 
         <RadioButton
-            android:id="@+id/corut"
+            android:id="@+id/threads"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
             android:text="Progressbar coroutine" />
 
         <RadioButton
-            android:id="@+id/flow"
+            android:id="@+id/rx"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Progressbar flow" />
@@ -33,6 +33,39 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Alarm" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/radioTypes2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_weight="70"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/time1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="50" />
+
+        <RadioButton
+            android:id="@+id/time2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="100" />
+
+        <RadioButton
+            android:id="@+id/time3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="300" />
+        <RadioButton
+            android:id="@+id/time4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="500" />
     </RadioGroup>
 
     <ProgressBar
