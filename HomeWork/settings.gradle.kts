@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "hw6"
+rootProject.name = "hw5"
 include(":app")
  

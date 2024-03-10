@@ -42,7 +42,9 @@ class MainViewModel : ViewModel() {
             while (time <= 100) {
 
                 Thread.sleep(period.toLong())
-                viewModelScope.launch { handleResult(time) }
+                viewModelScope.launch {
+                    handleResult(time)
+                }
                 time += 10
             }
         }
@@ -58,7 +60,7 @@ class MainViewModel : ViewModel() {
             .takeWhile { time <= 100 }
             .subscribe {
                 time += 10
-                viewModelScope.launch { handleResult(time) }
+                handleResult(time)
             }
     }
 
