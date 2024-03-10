@@ -35,14 +35,6 @@ class FragmentA : Fragment(R.layout.first_fragment) {
         viewModel = FragmentAViewModel(number)
     }
 
-//
-//    override fun onCreateView(
-//        inflater: LayoutInflater,
-//        container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View? {
-//        return inflater.inflate(R.layout.first_fragment, container, false)
-//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
