@@ -9,5 +9,5 @@ record Chat(Integer id, UserPair userIds, List<Integer> messageIds) implements C
     }
 
     @Override
-    public List<Integer> getMessageIds() { return messageIds; }
+    public List<Integer> getMessageIDs() { return messageIds; }
 }

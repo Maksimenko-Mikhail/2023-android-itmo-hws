@@ -1,11 +1,19 @@
 package company.vk.polis.task1
 
-data class GroupChat(val id : Int?, val userIds : List<Int>?, val messageIds : List<Int>?) : ChatEntity {
-    override fun getId(): Int? {
+import org.jetbrains.annotations.Nullable
+
+
+data class GroupChat(val id : Int, val userIds : List<Int>, val messageIds : List<Int>?) : ChatEntity {
+
+    override fun getId(): Int {
         return id
     }
 
-    override fun getMessageIds(): List<Int>? {
+    override fun getMessageIDs(): List<Int>? {
         return messageIds
     }
+
+//    fun isValid() : Boolean {
+//        return id != null && userIds != null && messageIds != null
+//    }
 }
