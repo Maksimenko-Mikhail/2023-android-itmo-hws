@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 
-class FragmentA : Fragment() {
+class FragmentA : Fragment(R.layout.first_fragment) {
     private lateinit var nameTv: TextView
     private lateinit var counterTv : TextView
     private lateinit var numberTv : TextView
@@ -23,19 +23,26 @@ class FragmentA : Fragment() {
     private lateinit var viewModel : FragmentAViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        fragmentName = requireArguments().getString(FRAGMENT_ID)!!
-        count = requireArguments().getInt(MainNavigationFragment.FRAGMENTS_COUNT)
-        viewModel = FragmentAViewModel(savedInstanceState?.getInt(NUMBER_TAG))
+        if (savedInstanceState == null) {
+            fragmentName = requireArguments().getString(FRAGMENT_ID)!!
+            count = requireArguments().getInt(MainNavigationFragment.FRAGMENTS_COUNT)
+            viewModel = FragmentAViewModel(null)
+            return
+        }
+        fragmentName = savedInstanceState.getString(FRAGMENT_NAME)!!
+        count = savedInstanceState.getInt(COUNT)
+        number = savedInstanceState.getInt(NUMBER_TAG)
+        viewModel = FragmentAViewModel(number)
     }
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.first_fragment, container, false)
-    }
+//
+//    override fun onCreateView(
+//        inflater: LayoutInflater,
+//        container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ): View? {
+//        return inflater.inflate(R.layout.first_fragment, container, false)
+//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,7 +53,7 @@ class FragmentA : Fragment() {
 
         nameTv.text = fragmentName
 
-        setCounter(count)
+        counterTv.text = "$fragmentName number is: $count"
 
         addFragment.setOnClickListener {
             (requireActivity().supportFragmentManager.findFragmentByTag(NAVIGATION_TAG) as MainNavigationFragment).addLastFragment()
@@ -61,6 +68,8 @@ class FragmentA : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putInt(NUMBER_TAG, number)
+        outState.putInt(COUNT, count)
+        outState.putString(FRAGMENT_NAME, fragmentName)
         super.onSaveInstanceState(outState)
     }
     fun setCounter(newValue : Int) {
@@ -72,6 +81,8 @@ class FragmentA : Fragment() {
     fun getFragmentName() = fragmentName
 
     companion object {
+        const val FRAGMENT_NAME = "fragment name"
+        private const val COUNT = "count"
         const val FRAGMENT_ID = "fragment_id"
         const val NUMBER_TAG = "number_tag"
     }
