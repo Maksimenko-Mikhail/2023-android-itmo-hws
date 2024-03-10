@@ -10,8 +10,8 @@ class AuthorizationAdapter {
             val response = api.login(LoginRequestBody(login, password))
             when (response.code()) {
                 200 -> Result.success(response.body())
-                401 -> Result.failure(Exception("q"))
-                else  -> Result.failure(Exception(response.code().toString()))
+                401 -> Result.failure(Exception("Authorization failed"))
+                else  -> Result.failure(Exception("Internet connection not found"))
             }
         } catch (e : Exception) {
             Result.failure(e)

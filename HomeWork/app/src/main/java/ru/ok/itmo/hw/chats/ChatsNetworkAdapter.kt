@@ -20,7 +20,7 @@ class ChatsNetworkAdapter {
             val response = api.getChats()
             Result.success(response.body()!!)
         } catch (e : Exception) {
-            Result.failure(e)
+            Result.failure(Exception("Bad internet connection"))
         }
 
     }
@@ -31,7 +31,7 @@ class ChatsNetworkAdapter {
             val response = api.getChannelMessages(channelName)
             Result.success(response.body()!!)
         } catch (e : Exception) {
-            Result.failure(e)
+            Result.failure(Exception("Bad internet connection"))
         }
     }
 

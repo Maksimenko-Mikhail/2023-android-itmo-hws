@@ -74,11 +74,9 @@ class AuthorizationFragment : Fragment(R.layout.authorisation_screen) {
 
 
         enterBtn.setOnClickListener {
-//            viewModel.login(loginEt.text.toString(), passwordEt.text.toString())
-            viewModel.login("a", "SiTCiAXXX")
+            viewModel.login(loginEt.text.toString(), passwordEt.text.toString())
         }
 
         viewModel.uiStateLiveData.observe(viewLifecycleOwner, this::render)
-//        enterBtn.performClick()
     }
 }

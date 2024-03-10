@@ -25,8 +25,6 @@ class AuthorizationViewModel(): ViewModel() {
                 _uiStateLiveData.value = LoginUiState.Error(it)
             }
         }
-//        _uiStateLiveData.value = LoginUiState.NoState
-
     }
     
 }
