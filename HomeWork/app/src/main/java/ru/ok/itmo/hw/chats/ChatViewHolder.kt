@@ -12,7 +12,7 @@ class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun bind(item : ChatItem) {
         chatName.text = item.name
-        message.text = item.lastMessage?.data?.text ?: item.lastMessage?.data?.imagePath
+        message.text = item.lastMessage?.data?.Text?.text ?: item.lastMessage?.data?.Image?.link
 
     }
 

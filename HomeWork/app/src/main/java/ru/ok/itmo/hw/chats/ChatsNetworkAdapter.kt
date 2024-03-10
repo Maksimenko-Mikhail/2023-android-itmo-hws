@@ -1,5 +1,6 @@
 package ru.ok.itmo.hw.chats
 
+import android.util.Log
 import ru.ok.itmo.hw.data_objects.Message
 import ru.ok.itmo.hw.network.NetworkProvider
 
@@ -26,6 +27,7 @@ class ChatsNetworkAdapter {
 
     suspend fun getChatsMessages(channelName : String) : Result<List<Message>> {
         return try {
+            Log.v("channelName", channelName)
             val response = api.getChannelMessages(channelName)
             Result.success(response.body()!!)
         } catch (e : Exception) {

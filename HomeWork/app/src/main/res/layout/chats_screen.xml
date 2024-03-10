@@ -2,11 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center"
+    >
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chats_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:visibility="gone"
+        />
+
+    <ProgressBar
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:id="@+id/loading_state"
+        android:progressDrawable="@drawable/loading_data"
+        android:visibility="gone"
+        />
+
+    <TextView
+        android:id="@+id/chats_loading_error"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="20dp"
+
         />
 </LinearLayout>

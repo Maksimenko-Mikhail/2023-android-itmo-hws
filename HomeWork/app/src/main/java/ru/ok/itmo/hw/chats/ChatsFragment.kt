@@ -3,6 +3,8 @@ package ru.ok.itmo.hw.chats
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -15,6 +17,8 @@ class ChatsFragment : Fragment(R.layout.chats_screen) {
 
     private lateinit var viewModel : ChatsViewModel
     private lateinit var chatList : RecyclerView
+    private lateinit var loadingView : ProgressBar
+    private lateinit var errorTv : TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,13 +53,14 @@ class ChatsFragment : Fragment(R.layout.chats_screen) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getAllChatItems()
         chatList = view.findViewById(R.id.chats_view)
+        loadingView = view.findViewById(R.id.loading_state)
+        errorTv = view.findViewById(R.id.chats_loading_error)
+
+
         chatList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
 
         viewModel.uiStateLiveData.observe(viewLifecycleOwner, this::render)
-
-
-
 
     }
 
@@ -63,21 +68,36 @@ class ChatsFragment : Fragment(R.layout.chats_screen) {
     private fun render(uiState: ChatsUiState) {
         when(uiState) {
             is ChatsUiState.Success -> {
+                errorTv.visibility = View.GONE
+                loadingView.visibility = View.GONE
+                chatList.visibility = View.VISIBLE
                 chatList.adapter = ChatsAdapter(uiState.itemList)
-            }
-            is ChatsUiState.Error -> {
                 return
             }
-            is ChatsUiState.Loading -> {}
-            is ChatsUiState.NoState -> {}
+            is ChatsUiState.Error -> {
+                loadingView.visibility = View.GONE
+                chatList.visibility = View.GONE
+                errorTv.visibility = View.VISIBLE
+                errorTv.text = uiState.throwable.message
+                return
+            }
+            is ChatsUiState.Loading -> {
+                chatList.visibility = View.GONE
+                errorTv.visibility = View.GONE
+                loadingView.visibility = View.VISIBLE
+                return
+
+            }
+            is ChatsUiState.NoState -> {
+                chatList.visibility = View.GONE
+                errorTv.visibility = View.GONE
+                loadingView.visibility = View.GONE
+                return
+            }
         }
     }
 
 
-    override fun onDetach() {
-        viewModel.logout()
-        super.onDetach()
-    }
 
     companion object {
         const val AUTH_TOKEN_KEY = "AUTH"

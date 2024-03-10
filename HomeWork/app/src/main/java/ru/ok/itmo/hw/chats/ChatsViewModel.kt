@@ -21,11 +21,11 @@ class ChatsViewModel constructor(private val token : String): ViewModel() {
 
         viewModelScope.launch(Dispatchers.IO) {
             chatsNetworkAdapter.logout(token)
-//            chatsNetworkAdapter.logout(token)
         }
     }
 
     fun getAllChatItems() {
+        _uiStateLiveData.value = ChatsUiState.Loading
         viewModelScope.launch(Dispatchers.IO) {
             chatsNetworkAdapter.getAllChats().onSuccess {
                 val res = getChannelsInfo(it)
