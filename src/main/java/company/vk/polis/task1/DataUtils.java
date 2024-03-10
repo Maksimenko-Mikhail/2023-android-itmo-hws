@@ -40,7 +40,7 @@ public class DataUtils {
         return map;
     }
 
-    public static List<Chat> generateChats(int maxUserId, Map<Integer, List<Message>> senders) {
+    public static List<ChatEntity> generateChats(int maxUserId, Map<Integer, List<Message>> senders) {
         Random random = new Random();
         Map<UserPair, List<Integer>> userPairListMap = new HashMap<>();
         for (int i = 0; i < maxUserId; i++) {
@@ -60,9 +60,10 @@ public class DataUtils {
             }
         }
         int k = 0;
-        ArrayList<Chat> list = new ArrayList<>();
+        ArrayList<ChatEntity> list = new ArrayList<>();
         for (Map.Entry<UserPair, List<Integer>> entry : userPairListMap.entrySet()) {
-            list.add(new Chat(k, entry.getKey(), entry.getValue()));
+            List<Integer> userIds = List.of(entry.getKey().senderId(), entry.getKey().receiverId());
+            list.add(random.nextBoolean() ? new Chat(k, entry.getKey(), entry.getValue()) : new GroupChat(k, userIds, entry.getValue()));
             k++;
         }
         return list;
@@ -73,7 +74,7 @@ public class DataUtils {
         int maxUserId = 10;
         List<User> users = generateUsers(maxUserId);
         Map<Integer, List<Message>> message = generateMessages(maxUserId);
-        List<Chat> chats = generateChats(maxUserId, message);
+        List<ChatEntity> chats = generateChats(maxUserId, message);
         List<Message> messages = message.entrySet().stream().flatMap(e -> e.getValue().stream()).toList();
 
         List<Entity> combined = new ArrayList<>();

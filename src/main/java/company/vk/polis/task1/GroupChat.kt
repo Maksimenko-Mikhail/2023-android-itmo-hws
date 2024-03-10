@@ -13,7 +13,4 @@ data class GroupChat(val id : Int, val userIds : List<Int>, val messageIds : Lis
         return messageIds
     }
 
-//    fun isValid() : Boolean {
-//        return id != null && userIds != null && messageIds != null
-//    }
 }
