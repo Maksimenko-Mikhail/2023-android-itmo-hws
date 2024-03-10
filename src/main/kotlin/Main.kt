@@ -2,8 +2,6 @@ import java.util.concurrent.CountDownLatch
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
-import java.util.concurrent.ThreadFactory
-import java.util.concurrent.atomic.AtomicInteger
 
 fun runThread() {
     val list : MutableList<Int> = ArrayList()
@@ -40,6 +38,7 @@ fun deadlock() {
                 println("got sync2 access")
             }
         }
+        println("no deadlock in thread1")
     }
     val thread2 = Thread {
         synchronized(sync2) {
@@ -48,6 +47,7 @@ fun deadlock() {
                 println("got sync1 access")
             }
         }
+        println("no deadlock in thread2")
     }
     thread1.start()
     thread2.start()
@@ -93,7 +93,6 @@ fun synchronizedThreads() {
     println("sync threads: ${myInt.get()}")
 }
 
-//@Volatile
 var counter = 0
 fun unsynchronizedThreads() {
 
@@ -140,5 +139,7 @@ fun main(args: Array<String>) {
     synchronizedThreads()
     unsynchronizedThreads()
     countArraySum()
-//    deadlock()
+    println("Count tests done")
+    deadlock()
+
 }
