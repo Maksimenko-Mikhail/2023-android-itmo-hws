@@ -65,6 +65,7 @@ class FragmentA : Fragment() {
     }
     fun setCounter(newValue : Int) {
         count = newValue
+        counterTv = requireActivity().findViewById(R.id.fragment_number)
         counterTv.text = "$fragmentName number is: $newValue"
     }
 

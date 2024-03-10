@@ -15,7 +15,7 @@ class StartFragment : Fragment(R.layout.start_fragment) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setFragmentResultListener(MainNavigationFragment.FRAGMENTS_COUNT) {
-                requestKey, bundle ->  count = bundle.getInt(requestKey)
+                requestKey, bundle -> count = bundle.getInt(requestKey)
         }
     }
 

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <item
+        android:id="@+id/menu_item_a"
+        android:title="@string/item_a"
+        android:icon="@drawable/ic_launcher_background"
+        />
+    <item
+        android:id="@+id/menu_item_b"
+        android:title="@string/item_b"
+        android:icon="@drawable/ic_launcher_background"
+        />
+    <item
+        android:id="@+id/menu_item_c"
+        android:title="@string/item_c"
+        android:icon="@drawable/ic_launcher_background"
+        />
+    <item
+        android:id="@+id/menu_item_d"
+        android:title="@string/item_d"
+        android:icon="@drawable/ic_launcher_background"
+        />
+    <item
+        android:id="@+id/menu_item_e"
+        android:title="@string/item_e"
+        android:icon="@drawable/ic_launcher_background"
+        />
+</menu>

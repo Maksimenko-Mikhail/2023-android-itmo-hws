@@ -3,4 +3,9 @@
     <string name="fragment_a">fragment A</string>
     <string name="start">start</string>
     <string name="add_fragment">add fragment</string>
+    <string name="item_a">A</string>
+    <string name="item_b">B</string>
+    <string name="item_c">C</string>
+    <string name="item_d">D</string>
+    <string name="item_e">E</string>
 </resources>

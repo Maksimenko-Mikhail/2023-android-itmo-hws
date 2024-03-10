@@ -1,28 +1,55 @@
 package ru.ok.itmo.hw
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
 import androidx.fragment.app.commit
 import androidx.fragment.app.setFragmentResult
+import com.google.android.material.navigation.NavigationBarView
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import kotlin.random.Random
 
 class MainNavigationFragment : Fragment(R.layout.main_fragment) {
     private var lastCopies = 1
     private var fragmentCounter : Int = 0
     private lateinit var lastName : String
-    private lateinit var btnA : Button
-    private lateinit var btnB : Button
-    private lateinit var btnC : Button
+
+    private var possibleFragmentsCount : Int = 0
+
+
+    private val fragmentNames = mapOf(
+        R.id.menu_item_a to "Fragment A",
+        R.id.menu_item_b to "Fragment B",
+        R.id.menu_item_c to "Fragment C",
+        R.id.menu_item_d to "Fragment D",
+        R.id.menu_item_e to "Fragment E"
+    )
+
+    private val fragmentMenu = mapOf(
+        "Fragment A" to R.id.menu_item_a,
+        "Fragment B" to R.id.menu_item_b,
+        "Fragment C" to R.id.menu_item_c,
+        "Fragment D" to R.id.menu_item_d,
+        "Fragment E" to R.id.menu_item_e,
+    )
+
+
+    private lateinit var menu : NavigationBarView
+
     private var fragmentStack = mutableListOf<String>()
     private var eachFragmentCounter = HashMap<String, Int>()
     companion object {
         private const val FRAGMENT_ID = FragmentA.FRAGMENT_ID
+        private const val EACH_FRAGMENT_COUNTER = "each fragment counter"
+        private const val FRAGMENT_STACK = "fragment stack"
+        private const val LAST_COPIES = "last copies"
+        private const val FRAGMENT_COUNTER = "fragment counter"
+        private const val POSSIBLE_FRAGMENTS_COUNT = "possible_fragments_count"
+        private const val MIN_FRAGMENTS = 3
+        private const val MAX_FRAGMENTS = 5
         const val FRAGMENTS_COUNT = "fragments_count"
     }
 
@@ -32,11 +59,6 @@ class MainNavigationFragment : Fragment(R.layout.main_fragment) {
             lastCopies -= 1
             requireActivity().supportFragmentManager.popBackStack()
         }
-//        if (lastCopies > 1) {
-//            requireActivity().supportFragmentManager.popBackStack(fragmentStack.last(), 1)
-//            lastCopies = 1
-//        }
-//        lastCopies = 1
         assert(lastCopies == 1)
         eachFragmentCounter[name] = (eachFragmentCounter[name] ?: 0) + 1
         fragmentCounter += 1
@@ -54,7 +76,6 @@ class MainNavigationFragment : Fragment(R.layout.main_fragment) {
                     hide(prevFragment)
                 }
                 add(R.id.frame1, FragmentA::class.java, bundle, name)
-//                addToBackStack(name)
             }
             fragmentStack.add(name)
             return
@@ -76,12 +97,40 @@ class MainNavigationFragment : Fragment(R.layout.main_fragment) {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (savedInstanceState != null) {
+            val gson = Gson()
+            val hashMapToken = savedInstanceState.getString(EACH_FRAGMENT_COUNTER)
+            val fragmentStackToken = savedInstanceState.getString(FRAGMENT_STACK)
 
+            var type = object : TypeToken<HashMap<String, Int>>() {}.type
+            eachFragmentCounter = gson.fromJson(hashMapToken, type)
+            type = object : TypeToken<MutableList<String>>() {}.type
+            fragmentStack = gson.fromJson(fragmentStackToken, type)
+
+            fragmentCounter = savedInstanceState.getInt(FRAGMENT_COUNTER)
+            lastCopies = savedInstanceState.getInt(LAST_COPIES)
+            possibleFragmentsCount = savedInstanceState.getInt(POSSIBLE_FRAGMENTS_COUNT)
+            return
+        }
         fragmentCounter = requireArguments().getInt(FRAGMENTS_COUNT)
         lastCopies = 1
-        assert(fragmentStack.isEmpty())
-        assert(requireActivity().supportFragmentManager.backStackEntryCount == 2)
+        possibleFragmentsCount = Random.nextInt(MIN_FRAGMENTS, MAX_FRAGMENTS + 1)
         addFragment("Fragment A")
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        val gson = Gson()
+        var type = object : TypeToken<HashMap<String, Int>>() {}.type
+        val eachFragmentCounterJson = gson.toJson(eachFragmentCounter, type)
+        type = object : TypeToken<MutableList<String>>() {}.type
+        val fragmentStackJson = gson.toJson(fragmentStack, type)
+        outState.putString(EACH_FRAGMENT_COUNTER, eachFragmentCounterJson)
+        outState.putString(FRAGMENT_STACK, fragmentStackJson)
+
+        outState.putInt(LAST_COPIES, lastCopies)
+        outState.putInt(FRAGMENT_COUNTER, fragmentCounter)
+        outState.putInt(POSSIBLE_FRAGMENTS_COUNT, possibleFragmentsCount)
+        super.onSaveInstanceState(outState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -110,7 +159,6 @@ class MainNavigationFragment : Fragment(R.layout.main_fragment) {
             setFragmentResult(FRAGMENTS_COUNT, bundleOf(FRAGMENTS_COUNT to fragmentCounter))
 
             requireActivity().supportFragmentManager.beginTransaction()
-//                .remove(this)
                 .remove(requireActivity().supportFragmentManager.findFragmentByTag(fragmentStack.last())!!)
                 .replace(R.id.container, requireActivity().supportFragmentManager.findFragmentByTag(HOME_TAG)!!, HOME_TAG)
                 .commit()
@@ -127,6 +175,7 @@ class MainNavigationFragment : Fragment(R.layout.main_fragment) {
         )!!
         lastCopies = 1
         lastName = fragmentStack.last()
+        menu.selectedItemId = fragmentMenu[lastName]!!
         requireActivity().supportFragmentManager.beginTransaction()
             .show(new)
             .remove(old)
@@ -149,23 +198,20 @@ class MainNavigationFragment : Fragment(R.layout.main_fragment) {
     }
 
     private fun initView(view : View) {
-        btnA = view.findViewById(R.id.btn1)
-        btnB = view.findViewById(R.id.btn2)
-        btnC = view.findViewById(R.id.btn3)
+        menu = view.findViewById(R.id.menu_bar)
 
-        btnA.setOnClickListener {
-            addFragment("Fragment A")
+        var cnt = 0
+        for (i in fragmentNames.keys) {
+            cnt++
+            if (cnt > possibleFragmentsCount) {
+                menu.menu.removeItem(i)
+            }
         }
-        btnB.setOnClickListener {
-            addFragment("Fragment B")
-        }
-        btnC.setOnClickListener {
-            addFragment("Fragment C")
+        menu.setOnItemSelectedListener {
+            val name = fragmentNames[it.itemId] ?: return@setOnItemSelectedListener false
+            addFragment(name)
+            return@setOnItemSelectedListener true
         }
 
     }
-
-
-
-
 }
