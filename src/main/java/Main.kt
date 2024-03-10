@@ -3,7 +3,6 @@ import company.vk.polis.task1.MessageController
 import company.vk.polis.task1.State
 
 fun main() {
-//    val utils = DataUtils()
     val messageController = MessageController()
 
     messageController.getChatItems(1)
